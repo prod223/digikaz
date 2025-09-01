@@ -1,0 +1,1129 @@
+{
+	"info": {
+		"_postman_id": "digikaz-api-collection",
+		"name": "DigiKaz API - Plateforme Location Étudiants",
+		"description": "Collection complète pour tester l'API de la plateforme de location de logements pour étudiants. Inclut l'authentification, la gestion des bailleurs, locataires, logements, réservations, avis et interactions.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "digikaz-api"
+	},
+	"item": [
+		{
+			"name": "🔐 Authentification",
+			"item": [
+				{
+					"name": "Inscription (Sign Up)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"bailleur@example.com\",\n  \"password\": \"password123\",\n  \"nom\": \"Jean Dupont\",\n  \"telephone\": \"+33123456789\",\n  \"type_utilisateur\": \"bailleur\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						},
+						"description": "Crée un nouveau compte utilisateur avec un profil correspondant (bailleur ou locataire)"
+					},
+					"response": []
+				},
+				{
+					"name": "Connexion (Sign In)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"bailleur@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						},
+						"description": "Authentifie un utilisateur existant et retourne les informations de session"
+					},
+					"response": []
+				},
+				{
+					"name": "Déconnexion (Sign Out)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/signout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signout"
+							]
+						},
+						"description": "Déconnecte l'utilisateur actuel"
+					},
+					"response": []
+				},
+				{
+					"name": "Profil Utilisateur (Me)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/auth/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						},
+						"description": "Récupère les informations de l'utilisateur connecté"
+					},
+					"response": []
+				},
+				{
+					"name": "Réinitialisation Mot de Passe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"user@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/reset-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"reset-password"
+							]
+						},
+						"description": "Envoie un email de réinitialisation de mot de passe"
+					},
+					"response": []
+				},
+				{
+					"name": "Mise à Jour Mot de Passe",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"password\": \"nouveau_password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/update-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"update-password"
+							]
+						},
+						"description": "Met à jour le mot de passe de l'utilisateur connecté"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints pour l'authentification des utilisateurs"
+		},
+		{
+			"name": "🏠 Bailleurs",
+			"item": [
+				{
+					"name": "Liste des Bailleurs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/bailleurs?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bailleurs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des bailleurs actifs"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer un Bailleur",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Marie Martin\",\n  \"email\": \"marie.martin@example.com\",\n  \"telephone\": \"+33123456789\",\n  \"adresse\": \"123 Rue de la Paix, Paris\",\n  \"code_postal\": \"75001\",\n  \"ville\": \"Paris\",\n  \"pays\": \"France\",\n  \"date_naissance\": \"1980-05-15\",\n  \"numero_identite\": \"1234567890123\",\n  \"type_identite\": \"carte_nationale\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bailleurs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bailleurs"
+							]
+						},
+						"description": "Crée un nouveau bailleur"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer un Bailleur par ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/bailleurs/{{bailleur_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bailleurs",
+								"{{bailleur_id}}"
+							]
+						},
+						"description": "Récupère les détails d'un bailleur spécifique"
+					},
+					"response": []
+				},
+				{
+					"name": "Mettre à Jour un Bailleur",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Marie Martin Updated\",\n  \"telephone\": \"+33987654321\",\n  \"adresse\": \"456 Avenue des Champs, Paris\",\n  \"code_postal\": \"75008\",\n  \"ville\": \"Paris\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/bailleurs/{{bailleur_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bailleurs",
+								"{{bailleur_id}}"
+							]
+						},
+						"description": "Met à jour les informations d'un bailleur"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un Bailleur",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/bailleurs/{{bailleur_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"bailleurs",
+								"{{bailleur_id}}"
+							]
+						},
+						"description": "Désactive un bailleur (soft delete)"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des bailleurs (propriétaires)"
+		},
+		{
+			"name": "👥 Locataires",
+			"item": [
+				{
+					"name": "Liste des Locataires",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/locataires?page=1&limit=10&universite=Sorbonne",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"locataires"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "universite",
+									"value": "Sorbonne"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des locataires avec filtres optionnels"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer un Locataire",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Pierre Durand\",\n  \"email\": \"pierre.durand@example.com\",\n  \"telephone\": \"+33123456789\",\n  \"date_naissance\": \"2000-03-20\",\n  \"universite\": \"Sorbonne\",\n  \"niveau_etudes\": \"master\",\n  \"domaine_etudes\": \"Informatique\",\n  \"annee_etudes\": 2,\n  \"budget_max\": 800,\n  \"ville_preferee\": \"Paris\",\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/locataires",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"locataires"
+							]
+						},
+						"description": "Crée un nouveau locataire"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer un Locataire par ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/locataires/{{locataire_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"locataires",
+								"{{locataire_id}}"
+							]
+						},
+						"description": "Récupère les détails d'un locataire avec son profil et préférences"
+					},
+					"response": []
+				},
+				{
+					"name": "Mettre à Jour un Locataire",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nom\": \"Pierre Durand Updated\",\n  \"telephone\": \"+33987654321\",\n  \"universite\": \"HEC Paris\",\n  \"niveau_etudes\": \"doctorat\",\n  \"budget_max\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/locataires/{{locataire_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"locataires",
+								"{{locataire_id}}"
+							]
+						},
+						"description": "Met à jour les informations d'un locataire"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un Locataire",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/locataires/{{locataire_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"locataires",
+								"{{locataire_id}}"
+							]
+						},
+						"description": "Désactive un locataire (soft delete)"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des locataires (étudiants)"
+		},
+		{
+			"name": "🏢 Logements",
+			"item": [
+				{
+					"name": "Liste des Logements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logements?page=1&limit=10&ville=Paris&prix_min=500&prix_max=1000&type_logement=appartement",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logements"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "ville",
+									"value": "Paris"
+								},
+								{
+									"key": "prix_min",
+									"value": "500"
+								},
+								{
+									"key": "prix_max",
+									"value": "1000"
+								},
+								{
+									"key": "type_logement",
+									"value": "appartement"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des logements avec filtres avancés"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer un Logement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bailleur_id\": 1,\n  \"titre\": \"Studio moderne près de la Sorbonne\",\n  \"description\": \"Studio rénové de 25m² avec mezzanine, idéal pour étudiant\",\n  \"adresse\": \"15 Rue des Écoles\",\n  \"code_postal\": \"75005\",\n  \"ville\": \"Paris\",\n  \"pays\": \"France\",\n  \"latitude\": 48.8467,\n  \"longitude\": 2.3444,\n  \"type_logement\": \"studio\",\n  \"surface\": 25,\n  \"nombre_pieces\": 1,\n  \"nombre_chambres\": 1,\n  \"nombre_salles_bain\": 1,\n  \"prix_mensuel\": 750,\n  \"charges_mensuelles\": 50,\n  \"caution\": 1500,\n  \"disponible\": true,\n  \"statut_logement\": \"disponible\",\n  \"equipements\": [\"wifi\", \"chauffage\", \"ascenseur\"],\n  \"photos\": [\"photo1.jpg\", \"photo2.jpg\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/logements",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logements"
+							]
+						},
+						"description": "Crée un nouveau logement"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer un Logement par ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logements/{{logement_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logements",
+								"{{logement_id}}"
+							]
+						},
+						"description": "Récupère les détails d'un logement avec les informations du bailleur et les avis"
+					},
+					"response": []
+				},
+				{
+					"name": "Mettre à Jour un Logement",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titre\": \"Studio moderne rénové près de la Sorbonne\",\n  \"description\": \"Studio entièrement rénové avec équipements modernes\",\n  \"prix_mensuel\": 800,\n  \"charges_mensuelles\": 60,\n  \"equipements\": [\"wifi\", \"chauffage\", \"ascenseur\", \"climatisation\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/logements/{{logement_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logements",
+								"{{logement_id}}"
+							]
+						},
+						"description": "Met à jour les informations d'un logement"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un Logement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logements/{{logement_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logements",
+								"{{logement_id}}"
+							]
+						},
+						"description": "Marque un logement comme indisponible (soft delete)"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des logements disponibles à la location"
+		},
+		{
+			"name": "📅 Réservations",
+			"item": [
+				{
+					"name": "Liste des Réservations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/reservations?page=1&limit=10&statut=confirmee",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservations"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "statut",
+									"value": "confirmee"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des réservations avec filtres"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer une Réservation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"logement_id\": 1,\n  \"locataire_id\": 1,\n  \"date_debut\": \"2024-09-01\",\n  \"date_fin\": \"2025-06-30\",\n  \"montant_total\": 7500,\n  \"caution_payee\": 1500,\n  \"statut\": \"en_attente\",\n  \"commentaires\": \"Étudiant sérieux, recherche logement pour l'année universitaire\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reservations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservations"
+							]
+						},
+						"description": "Crée une nouvelle réservation"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer une Réservation par ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/reservations/{{reservation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservations",
+								"{{reservation_id}}"
+							]
+						},
+						"description": "Récupère les détails d'une réservation avec les informations du logement et du locataire"
+					},
+					"response": []
+				},
+				{
+					"name": "Mettre à Jour une Réservation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date_debut\": \"2024-09-15\",\n  \"date_fin\": \"2025-07-15\",\n  \"montant_total\": 8000,\n  \"statut\": \"confirmee\",\n  \"commentaires\": \"Réservation confirmée par le bailleur\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reservations/{{reservation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservations",
+								"{{reservation_id}}"
+							]
+						},
+						"description": "Met à jour les informations d'une réservation"
+					},
+					"response": []
+				},
+				{
+					"name": "Annuler une Réservation",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/reservations/{{reservation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservations",
+								"{{reservation_id}}"
+							]
+						},
+						"description": "Annule une réservation (change le statut à annulée)"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des réservations de logements"
+		},
+		{
+			"name": "⭐ Avis",
+			"item": [
+				{
+					"name": "Liste des Avis",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/avis?page=1&limit=10&logement_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avis"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "logement_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des avis avec filtres"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer un Avis",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"logement_id\": 1,\n  \"locataire_id\": 1,\n  \"note\": 4,\n  \"commentaire\": \"Excellent logement, bien situé et bien équipé. Le bailleur est très réactif.\",\n  \"date_avis\": \"2024-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/avis",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"avis"
+							]
+						},
+						"description": "Crée un nouvel avis pour un logement"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des avis et évaluations des logements"
+		},
+		{
+			"name": "💬 Interactions",
+			"item": [
+				{
+					"name": "Liste des Interactions",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/interactions?page=1&limit=10&type_interaction=message",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"interactions"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "type_interaction",
+									"value": "message"
+								}
+							]
+						},
+						"description": "Récupère la liste paginée des interactions avec filtres"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer une Interaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"locataire_id\": 1,\n  \"bailleur_id\": 1,\n  \"logement_id\": 1,\n  \"type_interaction\": \"message\",\n  \"contenu\": \"Bonjour, je suis intéressé par votre logement. Est-il toujours disponible ?\",\n  \"date_interaction\": \"2024-01-15T10:30:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/interactions",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"interactions"
+							]
+						},
+						"description": "Crée une nouvelle interaction entre locataire et bailleur"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des interactions entre locataires et bailleurs"
+		},
+		{
+			"name": "🔍 Recherche Avancée",
+			"item": [
+				{
+					"name": "Recherche de Logements",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/search?ville=Paris&prix_min=500&prix_max=1000&type_logement=appartement&surface_min=20&surface_max=50&latitude=48.8566&longitude=2.3522&rayon=5&locataire_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"search"
+							],
+							"query": [
+								{
+									"key": "ville",
+									"value": "Paris"
+								},
+								{
+									"key": "prix_min",
+									"value": "500"
+								},
+								{
+									"key": "prix_max",
+									"value": "1000"
+								},
+								{
+									"key": "type_logement",
+									"value": "appartement"
+								},
+								{
+									"key": "surface_min",
+									"value": "20"
+								},
+								{
+									"key": "surface_max",
+									"value": "50"
+								},
+								{
+									"key": "latitude",
+									"value": "48.8566"
+								},
+								{
+									"key": "longitude",
+									"value": "2.3522"
+								},
+								{
+									"key": "rayon",
+									"value": "5"
+								},
+								{
+									"key": "locataire_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Recherche avancée de logements avec calcul de score de compatibilité"
+					},
+					"response": []
+				}
+			],
+			"description": "Recherche avancée avec filtres et calcul de compatibilité"
+		},
+		{
+			"name": "⚙️ Préférences",
+			"item": [
+				{
+					"name": "Récupérer les Préférences",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/preferences?locataire_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"preferences"
+							],
+							"query": [
+								{
+									"key": "locataire_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Récupère les préférences d'un locataire"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer/Mettre à Jour les Préférences",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"locataire_id\": 1,\n  \"type_logement_prefere\": \"appartement\",\n  \"budget_min\": 500,\n  \"budget_max\": 1000,\n  \"ville_preferee\": \"Paris\",\n  \"surface_min\": 20,\n  \"surface_max\": 50,\n  \"nombre_chambres_min\": 1,\n  \"nombre_chambres_max\": 2,\n  \"equipements_souhaites\": [\"wifi\", \"chauffage\", \"ascenseur\"],\n  \"distance_max_universite\": 5,\n  \"animaux_autorises\": true,\n  \"fumeur\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/preferences",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"preferences"
+							]
+						},
+						"description": "Crée ou met à jour les préférences d'un locataire"
+					},
+					"response": []
+				}
+			],
+			"description": "Gestion des préférences des locataires"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Script de pré-requête pour définir des variables dynamiques",
+					"if (pm.request.url.path.includes('/auth/signin') && pm.request.method === 'POST') {",
+					"    // Stocker le token après connexion",
+					"    pm.sendRequest(pm.request, function (err, response) {",
+					"        if (!err && response.json().success) {",
+					"            const session = response.json().data.session;",
+					"            if (session && session.access_token) {",
+					"                pm.environment.set('auth_token', session.access_token);",
+					"            }",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bailleur_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "locataire_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "logement_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "reservation_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
