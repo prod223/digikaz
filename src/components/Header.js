@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -70,7 +69,6 @@ const Header = () => {
 
           {/* Desktop Actions */}
           <div className="hidden lg:flex items-center space-x-4">
-            <ThemeToggle />
             <Link href="/auth/signin">
               <button className="btn-secondary">
                 Se connecter
@@ -85,7 +83,6 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <div className="lg:hidden flex items-center space-x-2">
-            <ThemeToggle />
             <button
               className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
